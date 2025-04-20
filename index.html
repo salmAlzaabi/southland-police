@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SouthLand Police</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0b0f1a;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #1f2b3e;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    nav {
+      background-color: #151d2b;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    nav a {
+      color: #b3c7e6;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #ffffff;
+    }
+    table {
+      width: 90%;
+      margin: 30px auto;
+      border-collapse: collapse;
+      background-color: #1a2332;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+      border-bottom: 1px solid #2e3b4e;
+    }
+    th {
+      background-color: #24324d;
+      color: #fff;
+    }
+    tr:hover {
+      background-color: #2b3d5c;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    SouthLand Police
+  </header>
+
+  <!-- زر المهام في أعلى الصفحة -->
+  <nav>
+    <a href="javascript:void(0)" onclick="window.location.href='tasks.html';">🔍 المهام</a>
+  </nav>
+
+  <section id="officers">
+    <h2 style="text-align: center;">جدول العساكر</h2>
+    <table id="officerTable">
+      <thead>
+        <tr>
+          <th>الاسم</th>
+          <th>الرتبة</th>
+          <th>الكود العسكري</th>
+          <th>الحالة</th>
+          <th>آخر ترقية</th>
+          <th>الملاحظات</th>
+          <th>المنصب</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <div class="footer">
+    جميع الحقوق محفوظة &copy; SA | SouthLand Police
+  </div>
+
+  <script>
+    // تحميل بيانات العساكر
+    fetch('https://script.google.com/macros/s/AKfycbwjb3RkmBhAJX_Ubq0ll6vAsWudJC7MhOg_J9G7FqzOxZ8ZiUNy35CFRGIs7luL7Sg/exec')
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector('#officerTable tbody');
+        tbody.innerHTML = '';
+        data.forEach(row => {
+          if (row['الاسم'] && row['الاسم'].trim() !== '') {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${row['الاسم'] || '-'}</td>
+              <td>${row['الرتبة'] || '-'}</td>
+              <td>${row['الكود العسكري'] || '-'}</td>
+              <td>${row['الحالة'] || '-'}</td>
+              <td>${row['آخر ترقية'] || '-'}</td>
+              <td>${row['الملاحظات'] || '-'}</td>
+              <td>${row['المنصب'] || '-'}</td>
+            `;
+            tbody.appendChild(tr);
+          }
+        });
+      })
+      .catch(err => {
+        document.querySelector('#officerTable tbody').innerHTML = '<tr><td colspan="7">تعذر تحميل البيانات</td></tr>';
+      });
+  </script>
+</body>
+</html>
