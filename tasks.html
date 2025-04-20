@@ -69,9 +69,10 @@
     مهام SouthLand Police
   </header>
 
-  <!-- زر العودة مع رابط مطلق جديد -->
+  <!-- زر العودة -->
   <nav>
-    <a href="https://salmalzaabi.github.io/southland-police/index.html">🔙 العودة</a>
+    <!-- هنا يتم التعديل على الرابط بشكل صحيح -->
+    <a href="index.html">🔙 العودة</a>
   </nav>
 
   <section id="tasks">
@@ -95,7 +96,7 @@
 
   <script>
     // تحميل بيانات المهام
-    fetch('https://script.google.com/macros/s/AKfycbwjb3RkmBhAJX_Ubq0ll6vAsWudJC7MhOg_J9G7FqzOxZ8ZiUNy35CFRGIs7luL7Sg/exec?tasks=true')
+    fetch('https://script.google.com/macros/s/AKfycbz8kb0sACI_zG4bndzFiwEP6jx0zAFX8eNwZu1aEVYBc0syjPdXoPZaFmmlSbbHFtYq/exec')
       .then(res => res.json())
       .then(data => {
         const tbody = document.querySelector('#taskTable tbody');
