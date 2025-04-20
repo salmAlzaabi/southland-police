@@ -103,24 +103,28 @@
       .then(data => {
         const tbody = document.querySelector('#officerTable tbody');
         tbody.innerHTML = '';
-        data.forEach(row => {
-          if (row['الاسم'] && row['الاسم'].trim() !== '') {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-              <td>${row['الاسم'] || '-'}</td>
-              <td>${row['الرتبة'] || '-'}</td>
-              <td>${row['الكود العسكري'] || '-'}</td>
-              <td>${row['الحالة'] || '-'}</td>
-              <td>${row['آخر ترقية'] || '-'}</td>
-              <td>${row['الملاحظات'] || '-'}</td>
-              <td>${row['المنصب'] || '-'}</td>
-            `;
-            tbody.appendChild(tr);
-          }
-        });
+        if (data && Array.isArray(data) && data.length > 0) {
+          data.forEach(row => {
+            if (row['الاسم'] && row['الاسم'].trim() !== '') {
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+                <td>${row['الاسم'] || '-'}</td>
+                <td>${row['الرتبة'] || '-'}</td>
+                <td>${row['الكود العسكري'] || '-'}</td>
+                <td>${row['الحالة'] || '-'}</td>
+                <td>${row['آخر ترقية'] || '-'}</td>
+                <td>${row['الملاحظات'] || '-'}</td>
+                <td>${row['المنصب'] || '-'}</td>
+              `;
+              tbody.appendChild(tr);
+            }
+          });
+        } else {
+          tbody.innerHTML = '<tr><td colspan="7">لا توجد بيانات لعرضها</td></tr>';
+        }
       })
       .catch(err => {
-        document.querySelector('#officerTable tbody').innerHTML = '<tr><td colspan="7">تعذر تحميل البيانات</td></tr>';
+        document.querySelector('#officerTable tbody').innerHTML = '<tr><td colspan="7">تعذر تحميل البيانات، حاول مجددًا لاحقًا.</td></tr>';
       });
   </script>
 </body>
