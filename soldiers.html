@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>جدول العساكر - SouthLand Police</title>
+  <title>جدول العساكر</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -24,7 +24,7 @@
       background-color: #151d2b;
       padding: 10px 20px;
       display: flex;
-      justify-content: flex-start;
+      justify-content: flex-end;
       align-items: center;
     }
     nav a {
@@ -66,16 +66,16 @@
 </head>
 <body>
   <header>
-    جدول العساكر - SouthLand Police
+    SouthLand Police
   </header>
 
-  <!-- زر العودة -->
+  <!-- شريط التنقل -->
   <nav>
-    <a href="index.html">🔙 العودة إلى الصفحة الرئيسية</a>
+    <a href="index.html">الصفحة الرئيسية</a>
   </nav>
 
   <section id="officers">
-    <h2 style="text-align: center;">قائمة العساكر</h2>
+    <h2 style="text-align: center;">جدول العساكر</h2>
     <table id="officerTable">
       <thead>
         <tr>
@@ -98,7 +98,7 @@
   </div>
 
   <script>
-    // تحميل بيانات العساكر
+    // تحميل بيانات العساكر من شيت جوجل
     fetch('https://script.google.com/macros/s/AKfycbwjb3RkmBhAJX_Ubq0ll6vAsWudJC7MhOg_J9G7FqzOxZ8ZiUNy35CFRGIs7luL7Sg/exec')
       .then(res => res.json())
       .then(data => {
