@@ -69,11 +69,11 @@
     SouthLand Police
   </header>
 
+  <!-- زر المهام في أعلى الصفحة -->
   <nav>
-    <a href="javascript:void(0)" onclick="window.location.href='tasks.html';">🔍 المهام</a>
+    <a href="tasks.html">🔍 المهام</a>
   </nav>
 
-  <!-- جدول العساكر -->
   <section id="officers">
     <h2 style="text-align: center;">جدول العساكر</h2>
     <table id="officerTable">
@@ -86,20 +86,8 @@
           <th>آخر ترقية</th>
           <th>الملاحظات</th>
           <th>المنصب</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </section>
-
-  <!-- جدول النقاط -->
-  <section id="points">
-    <h2 style="text-align: center;">جدول النقاط</h2>
-    <table id="pointsTable">
-      <thead>
-        <tr>
-          <th>الاسم</th>
           <th>النقاط</th>
+          <th>الإجراء</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -111,15 +99,13 @@
   </div>
 
   <script>
-    const sheetURL = 'https://script.google.com/macros/s/AKfycbwjb3RkmBhAJX_Ubq0ll6vAsWudJC7MhOg_J9G7FqzOxZ8ZiUNy35CFRGIs7luL7Sg/exec';
-
     // تحميل بيانات العساكر
-    fetch(sheetURL)
+    fetch('https://script.google.com/macros/s/AKfycbwjb3RkmBhAJX_Ubq0ll6vAsWudJC7MhOg_J9G7FqzOxZ8ZiUNy35CFRGIs7luL7Sg/exec')
       .then(res => res.json())
       .then(data => {
-        const officerBody = document.querySelector('#officerTable tbody');
-        officerBody.innerHTML = '';
-        if (Array.isArray(data) && data.length > 0) {
+        const tbody = document.querySelector('#officerTable tbody');
+        tbody.innerHTML = '';
+        if (data && Array.isArray(data) && data.length > 0) {
           data.forEach(row => {
             if (row['الاسم'] && row['الاسم'].trim() !== '') {
               const tr = document.createElement('tr');
@@ -131,38 +117,46 @@
                 <td>${row['آخر ترقية'] || '-'}</td>
                 <td>${row['الملاحظات'] || '-'}</td>
                 <td>${row['المنصب'] || '-'}</td>
+                <td id="points-${row['الكود العسكري']}">${row['النقاط'] || 0}</td>
+                <td>
+                  <button onclick="updatePoints('${row['الكود العسكري']}', 1)">زيادة</button>
+                  <button onclick="updatePoints('${row['الكود العسكري']}', -1)">إنقاص</button>
+                </td>
               `;
-              officerBody.appendChild(tr);
+              tbody.appendChild(tr);
             }
           });
         } else {
-          officerBody.innerHTML = '<tr><td colspan="7">لا توجد بيانات لعرضها</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="9">لا توجد بيانات لعرضها</td></tr>';
         }
-
-        // تحميل النقاط
-        const pointsBody = document.querySelector('#pointsTable tbody');
-        pointsBody.innerHTML = '';
-        data.forEach(row => {
-          if (row['الاسم'] && row['النقاط']) {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-              <td>${row['الاسم']}</td>
-              <td>${row['النقاط']}</td>
-            `;
-            pointsBody.appendChild(tr);
-          }
-        });
-
-        // في حال مافي بيانات نقاط
-        if (pointsBody.innerHTML === '') {
-          pointsBody.innerHTML = '<tr><td colspan="2">لا توجد نقاط لعرضها</td></tr>';
-        }
-
       })
       .catch(err => {
-        document.querySelector('#officerTable tbody').innerHTML = '<tr><td colspan="7">تعذر تحميل بيانات العساكر</td></tr>';
-        document.querySelector('#pointsTable tbody').innerHTML = '<tr><td colspan="2">تعذر تحميل النقاط</td></tr>';
+        document.querySelector('#officerTable tbody').innerHTML = '<tr><td colspan="9">تعذر تحميل البيانات، حاول مجددًا لاحقًا.</td></tr>';
       });
+
+    // تحديث النقاط
+    function updatePoints(kod, delta) {
+      const pointsElement = document.querySelector(`#points-${kod}`);
+      let currentPoints = parseInt(pointsElement.innerText);
+      currentPoints += delta;
+      pointsElement.innerText = currentPoints;
+
+      // إرسال التحديث إلى Google Sheets
+      fetch('https://script.google.com/macros/s/AKfycbwjb3RkmBhAJX_Ubq0ll6vAsWudJC7MhOg_J9G7FqzOxZ8ZiUNy35CFRGIs7luL7Sg/exec', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ kood: kod, points: currentPoints })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('تم تحديث النقاط بنجاح');
+      })
+      .catch(error => {
+        console.error('حدث خطأ أثناء تحديث النقاط:', error);
+      });
+    }
   </script>
 </body>
 </html>
