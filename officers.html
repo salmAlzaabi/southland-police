@@ -4,118 +4,57 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>جدول العساكر | SouthLand Police</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0b0f1a;
-      color: white;
-      margin: 0;
-      padding: 0;
-      display: flex;
-    }
-    header {
-      background-color: #1f2b3e;
-      padding: 20px;
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      width: 100%;
-    }
-    nav {
-      background-color: #151d2b;
-      width: 250px;
-      padding: 10px;
-      position: fixed;
-      height: 100vh;
-    }
-    nav a {
-      color: #b3c7e6;
-      text-decoration: none;
-      margin: 0 15px;
-      display: block;
-      font-weight: bold;
-      padding: 10px 0;
-    }
-    nav a:hover {
-      color: #ffffff;
-    }
-    .officer-table {
-      margin-left: 250px;
-      padding: 30px;
-      text-align: center;
-    }
-    .officer-table table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    .officer-table th, .officer-table td {
-      padding: 10px;
-      border: 1px solid #444;
-      text-align: center;
-    }
-    .officer-table th {
-      background-color: #1f2b3e;
-      color: white;
-    }
-    .officer-table td {
-      background-color: #2a3b4c;
-    }
-    footer {
-      background-color: #1f2b3e;
-      padding: 15px;
-      text-align: center;
-      color: #777;
-      font-size: 14px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    جدول العساكر | SouthLand Police
+    <div class="logo">SouthLand Police</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">الصفحة الرئيسية</a></li>
+        <li><a href="tasks.html">المهام</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <nav>
-    <a href="index.html">الصفحة الرئيسية</a>
-    <a href="tasks.html">المهام</a>
-  </nav>
-
-  <div class="officer-table">
-    <h2>جدول العساكر الحالي</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>الرقم</th>
-          <th>الاسم</th>
-          <th>الرتبة</th>
-          <th>الحالة</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>محمد العلي</td>
-          <td>رقيب</td>
-          <td>نشط</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>أحمد سعيد</td>
-          <td>عريف</td>
-          <td>غائب</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>سالم الفهد</td>
-          <td>جندي</td>
-          <td>نشط</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <main>
+    <section class="officers">
+      <h1>جدول العساكر</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>الرقم</th>
+            <th>الاسم</th>
+            <th>الرتبة</th>
+            <th>الحالة</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>محمد العلي</td>
+            <td>رقيب</td>
+            <td>نشط</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>أحمد سعيد</td>
+            <td>عريف</td>
+            <td>غائب</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>سالم الفهد</td>
+            <td>جندي</td>
+            <td>نشط</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
 
   <footer>
-    جميع الحقوق محفوظة &copy; SA | SouthLand Police
+    <p>جميع الحقوق محفوظة &copy; SA | SouthLand Police</p>
   </footer>
 </body>
 </html>
