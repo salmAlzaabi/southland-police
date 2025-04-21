@@ -11,6 +11,8 @@
       color: white;
       margin: 0;
       padding: 0;
+      display: flex;
+      flex-direction: row;
     }
     header {
       background-color: #1f2b3e;
@@ -18,24 +20,31 @@
       text-align: center;
       font-size: 24px;
       font-weight: bold;
+      width: 100%;
     }
     nav {
       background-color: #151d2b;
+      width: 250px;
       padding: 10px;
-      text-align: center;
+      position: fixed;
+      height: 100vh;
     }
     nav a {
       color: #b3c7e6;
       text-decoration: none;
       margin: 0 15px;
+      display: block;
       font-weight: bold;
+      padding: 10px 0;
     }
     nav a:hover {
       color: #ffffff;
     }
     .main-content {
+      margin-left: 250px;
       padding: 30px;
       text-align: center;
+      flex: 1;
     }
     footer {
       background-color: #1f2b3e;
@@ -52,14 +61,14 @@
   </header>
 
   <nav>
-    <a href="tasks.html">الوظائف</a>
+    <a href="tasks.html">المهام</a>
     <a href="officers.html">جدول العساكر</a>
     <a href="news.html">آخر الأخبار</a>
   </nav>
 
   <div class="main-content">
     <h2>مرحبا بك في نظام SouthLand Police</h2>
-    <p>اختر إحدى الخيارات في الأعلى للتنقل بين الأقسام.</p>
+    <p>اختر إحدى الخيارات في القائمة الجانبية للتنقل بين الأقسام.</p>
   </div>
 
   <footer>
