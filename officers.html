@@ -11,6 +11,7 @@
       color: white;
       margin: 0;
       padding: 0;
+      display: flex;
     }
     header {
       background-color: #1f2b3e;
@@ -18,38 +19,47 @@
       text-align: center;
       font-size: 24px;
       font-weight: bold;
+      width: 100%;
     }
     nav {
       background-color: #151d2b;
+      width: 250px;
       padding: 10px;
-      text-align: center;
+      position: fixed;
+      height: 100vh;
     }
     nav a {
       color: #b3c7e6;
       text-decoration: none;
       margin: 0 15px;
+      display: block;
       font-weight: bold;
+      padding: 10px 0;
     }
     nav a:hover {
       color: #ffffff;
     }
-    table {
-      width: 90%;
-      margin: 30px auto;
-      border-collapse: collapse;
-      background-color: #1a2332;
-      border-radius: 8px;
-    }
-    th, td {
-      padding: 12px;
+    .officer-table {
+      margin-left: 250px;
+      padding: 30px;
       text-align: center;
-      border-bottom: 1px solid #2e3b4e;
     }
-    th {
-      background-color: #24324d;
+    .officer-table table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
     }
-    tr:hover {
-      background-color: #2b3d5c;
+    .officer-table th, .officer-table td {
+      padding: 10px;
+      border: 1px solid #444;
+      text-align: center;
+    }
+    .officer-table th {
+      background-color: #1f2b3e;
+      color: white;
+    }
+    .officer-table td {
+      background-color: #2a3b4c;
     }
     footer {
       background-color: #1f2b3e;
@@ -62,63 +72,51 @@
 </head>
 <body>
   <header>
-    جدول العساكر - SouthLand Police
+    جدول العساكر | SouthLand Police
   </header>
 
   <nav>
     <a href="index.html">الصفحة الرئيسية</a>
-    <a href="tasks.html">المهام</a>
     <a href="news.html">آخر الأخبار</a>
+    <a href="tasks.html">المهام</a>
   </nav>
 
-  <section>
-    <h2 style="text-align: center;">جدول العساكر</h2>
-    <table id="officerTable">
+  <div class="officer-table">
+    <h2>جدول العساكر الحالي</h2>
+    <table>
       <thead>
         <tr>
+          <th>الرقم</th>
           <th>الاسم</th>
           <th>الرتبة</th>
-          <th>الكود العسكري</th>
           <th>الحالة</th>
-          <th>آخر ترقية</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>محمد العلي</td>
+          <td>رقيب</td>
+          <td>نشط</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>أحمد سعيد</td>
+          <td>عريف</td>
+          <td>غائب</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>سالم الفهد</td>
+          <td>جندي</td>
+          <td>نشط</td>
+        </tr>
+      </tbody>
     </table>
-  </section>
+  </div>
 
   <footer>
     جميع الحقوق محفوظة &copy; SA | SouthLand Police
   </footer>
-
-  <script>
-    // جلب البيانات من جوجل شيت
-    fetch('https://script.google.com/macros/s/AKfycbwjb3RkmBhAJX_Ubq0ll6vAsWudJC7MhOg_J9G7FqzOxZ8ZiUNy35CFRGIs7luL7Sg/exec')
-      .then(res => res.json())
-      .then(data => {
-        const tbody = document.querySelector('#officerTable tbody');
-        tbody.innerHTML = '';
-        if (data && Array.isArray(data) && data.length > 0) {
-          data.forEach(row => {
-            if (row['الاسم'] && row['الاسم'].trim() !== '') {
-              const tr = document.createElement('tr');
-              tr.innerHTML = `
-                <td>${row['الاسم'] || '-'}</td>
-                <td>${row['الرتبة'] || '-'}</td>
-                <td>${row['الكود العسكري'] || '-'}</td>
-                <td>${row['الحالة'] || '-'}</td>
-                <td>${row['آخر ترقية'] || '-'}</td>
-              `;
-              tbody.appendChild(tr);
-            }
-          });
-        } else {
-          tbody.innerHTML = '<tr><td colspan="5">لا توجد بيانات لعرضها</td></tr>';
-        }
-      })
-      .catch(err => {
-        document.querySelector('#officerTable tbody').innerHTML = '<tr><td colspan="5">تعذر تحميل البيانات، حاول مجددًا لاحقًا.</td></tr>';
-      });
-  </script>
 </body>
 </html>
