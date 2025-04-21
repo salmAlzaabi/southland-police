@@ -32,6 +32,7 @@
       text-decoration: none;
       margin: 0 10px;
       font-weight: bold;
+      cursor: pointer;
     }
     nav a:hover {
       color: #ffffff;
@@ -69,10 +70,9 @@
     مهام SouthLand Police
   </header>
 
-  <!-- زر العودة -->
+  <!-- زر العودة الديناميكي -->
   <nav>
-    <!-- رابط العودة بشكل صحيح إلى الصفحة الرئيسية -->
-    <a href="index.html">🔙 العودة</a>
+    <a href="#" onclick="history.back(); return false;">🔙 العودة</a>
   </nav>
 
   <section id="tasks">
@@ -120,3 +120,4 @@
   </script>
 </body>
 </html>
+
