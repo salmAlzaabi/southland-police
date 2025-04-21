@@ -4,73 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SouthLand Police</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0b0f1a;
-      color: white;
-      margin: 0;
-      padding: 0;
-      display: flex;
-    }
-    header {
-      background-color: #1f2b3e;
-      padding: 20px;
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      width: 100%;
-    }
-    nav {
-      background-color: #151d2b;
-      width: 250px;
-      padding: 10px;
-      position: fixed;
-      height: 100vh;
-    }
-    nav a {
-      color: #b3c7e6;
-      text-decoration: none;
-      margin: 0 15px;
-      display: block;
-      font-weight: bold;
-      padding: 10px 0;
-    }
-    nav a:hover {
-      color: #ffffff;
-    }
-    .main-content {
-      margin-left: 250px;
-      padding: 30px;
-      text-align: center;
-      flex: 1;
-    }
-    footer {
-      background-color: #1f2b3e;
-      padding: 15px;
-      text-align: center;
-      color: #777;
-      font-size: 14px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    SouthLand Police
+    <div class="logo">SouthLand Police</div>
+    <nav>
+      <ul>
+        <li><a href="tasks.html">المهام</a></li>
+        <li><a href="officers.html">جدول العساكر</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <nav>
-    <a href="tasks.html">المهام</a>
-    <a href="officers.html">جدول العساكر</a>
-  </nav>
-
-  <div class="main-content">
-    <h2>مرحبا بك في نظام SouthLand Police</h2>
-    <p>اختر إحدى الخيارات في القائمة الجانبية للتنقل بين الأقسام.</p>
-  </div>
+  <main>
+    <section class="intro">
+      <h1>مرحبًا بك في نظام SouthLand Police</h1>
+      <p>اختر إحدى الأقسام في القائمة الجانبية.</p>
+    </section>
+  </main>
 
   <footer>
-    جميع الحقوق محفوظة &copy; SA | SouthLand Police
+    <p>جميع الحقوق محفوظة &copy; SA | SouthLand Police</p>
   </footer>
 </body>
 </html>
