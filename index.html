@@ -69,11 +69,11 @@
     SouthLand Police
   </header>
 
-  <!-- زر المهام في أعلى الصفحة -->
   <nav>
     <a href="javascript:void(0)" onclick="window.location.href='tasks.html';">🔍 المهام</a>
   </nav>
 
+  <!-- جدول العساكر -->
   <section id="officers">
     <h2 style="text-align: center;">جدول العساكر</h2>
     <table id="officerTable">
@@ -92,18 +92,34 @@
     </table>
   </section>
 
+  <!-- جدول النقاط -->
+  <section id="points">
+    <h2 style="text-align: center;">جدول النقاط</h2>
+    <table id="pointsTable">
+      <thead>
+        <tr>
+          <th>الاسم</th>
+          <th>النقاط</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
   <div class="footer">
     جميع الحقوق محفوظة &copy; SA | SouthLand Police
   </div>
 
   <script>
+    const sheetURL = 'https://script.google.com/macros/s/AKfycbwjb3RkmBhAJX_Ubq0ll6vAsWudJC7MhOg_J9G7FqzOxZ8ZiUNy35CFRGIs7luL7Sg/exec';
+
     // تحميل بيانات العساكر
-    fetch('https://script.google.com/macros/s/AKfycbwjb3RkmBhAJX_Ubq0ll6vAsWudJC7MhOg_J9G7FqzOxZ8ZiUNy35CFRGIs7luL7Sg/exec')
+    fetch(sheetURL)
       .then(res => res.json())
       .then(data => {
-        const tbody = document.querySelector('#officerTable tbody');
-        tbody.innerHTML = '';
-        if (data && Array.isArray(data) && data.length > 0) {
+        const officerBody = document.querySelector('#officerTable tbody');
+        officerBody.innerHTML = '';
+        if (Array.isArray(data) && data.length > 0) {
           data.forEach(row => {
             if (row['الاسم'] && row['الاسم'].trim() !== '') {
               const tr = document.createElement('tr');
@@ -116,15 +132,36 @@
                 <td>${row['الملاحظات'] || '-'}</td>
                 <td>${row['المنصب'] || '-'}</td>
               `;
-              tbody.appendChild(tr);
+              officerBody.appendChild(tr);
             }
           });
         } else {
-          tbody.innerHTML = '<tr><td colspan="7">لا توجد بيانات لعرضها</td></tr>';
+          officerBody.innerHTML = '<tr><td colspan="7">لا توجد بيانات لعرضها</td></tr>';
         }
+
+        // تحميل النقاط
+        const pointsBody = document.querySelector('#pointsTable tbody');
+        pointsBody.innerHTML = '';
+        data.forEach(row => {
+          if (row['الاسم'] && row['النقاط']) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${row['الاسم']}</td>
+              <td>${row['النقاط']}</td>
+            `;
+            pointsBody.appendChild(tr);
+          }
+        });
+
+        // في حال مافي بيانات نقاط
+        if (pointsBody.innerHTML === '') {
+          pointsBody.innerHTML = '<tr><td colspan="2">لا توجد نقاط لعرضها</td></tr>';
+        }
+
       })
       .catch(err => {
-        document.querySelector('#officerTable tbody').innerHTML = '<tr><td colspan="7">تعذر تحميل البيانات، حاول مجددًا لاحقًا.</td></tr>';
+        document.querySelector('#officerTable tbody').innerHTML = '<tr><td colspan="7">تعذر تحميل بيانات العساكر</td></tr>';
+        document.querySelector('#pointsTable tbody').innerHTML = '<tr><td colspan="2">تعذر تحميل النقاط</td></tr>';
       });
   </script>
 </body>
