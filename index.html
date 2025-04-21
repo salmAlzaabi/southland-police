@@ -11,6 +11,7 @@
       color: white;
       margin: 0;
       padding: 0;
+      transition: background-color 0.3s, color 0.3s, font-size 0.3s;
     }
     header {
       background-color: #1f2b3e;
@@ -26,12 +27,13 @@
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      gap: 15px;
     }
     nav a {
       color: #b3c7e6;
       text-decoration: none;
-      margin: 0 10px;
       font-weight: bold;
+      cursor: pointer;
     }
     nav a:hover {
       color: #ffffff;
@@ -62,16 +64,46 @@
       color: #777;
       font-size: 14px;
     }
+    /* نافذة الإعدادات */
+    #settingsModal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #1a2332;
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 1000;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      min-width: 300px;
+      color: white;
+    }
+    #settingsModal select, #settingsModal input[type="checkbox"] {
+      margin-top: 5px;
+      width: 100%;
+    }
+    #settingsModal button {
+      margin-top: 10px;
+      background: #24324d;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    #settingsModal hr {
+      margin: 10px 0;
+      border: 0;
+      border-top: 1px solid #444;
+    }
   </style>
 </head>
 <body>
-  <header>
-    SouthLand Police
-  </header>
+  <header>SouthLand Police</header>
 
-  <!-- زر المهام في أعلى الصفحة -->
   <nav>
-    <a href="javascript:void(0)" onclick="window.location.href='tasks.html';">🔍 المهام</a>
+    <a onclick="window.location.href='tasks.html';">🔍 المهام</a>
+    <a onclick="toggleSettings()">⚙️ الإعدادات</a>
   </nav>
 
   <section id="officers">
@@ -96,8 +128,35 @@
     جميع الحقوق محفوظة &copy; SA | SouthLand Police
   </div>
 
+  <!-- نافذة الإعدادات -->
+  <div id="settingsModal">
+    <h3>⚙️ الإعدادات</h3>
+    <label>
+      <input type="checkbox" id="themeToggle" onchange="switchTheme()" />
+      تفعيل الوضع النهاري
+    </label>
+    <hr />
+
+    <label>🔠 حجم الخط:</label>
+    <select id="fontSizeSelect" onchange="changeFontSize()">
+      <option value="small">صغير</option>
+      <option value="medium" selected>متوسط</option>
+      <option value="large">كبير</option>
+    </select>
+    <hr />
+
+    <label>🌐 اللغة:</label>
+    <select id="languageSelect" onchange="changeLanguage()">
+      <option value="ar" selected>العربية</option>
+      <option value="en">English</option>
+    </select>
+
+    <br />
+    <button onclick="toggleSettings()">إغلاق</button>
+  </div>
+
   <script>
-    // تحميل بيانات العساكر
+    // جدول العساكر
     fetch('https://script.google.com/macros/s/AKfycbwjb3RkmBhAJX_Ubq0ll6vAsWudJC7MhOg_J9G7FqzOxZ8ZiUNy35CFRGIs7luL7Sg/exec')
       .then(res => res.json())
       .then(data => {
@@ -123,9 +182,69 @@
           tbody.innerHTML = '<tr><td colspan="7">لا توجد بيانات لعرضها</td></tr>';
         }
       })
-      .catch(err => {
+      .catch(() => {
         document.querySelector('#officerTable tbody').innerHTML = '<tr><td colspan="7">تعذر تحميل البيانات، حاول مجددًا لاحقًا.</td></tr>';
       });
+
+    // إعدادات
+    function toggleSettings() {
+      const modal = document.getElementById('settingsModal');
+      modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function switchTheme() {
+      const isLight = document.getElementById('themeToggle').checked;
+      if (isLight) {
+        document.body.style.backgroundColor = '#f4f4f4';
+        document.body.style.color = '#000';
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.body.style.backgroundColor = '#0b0f1a';
+        document.body.style.color = '#fff';
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    function changeFontSize() {
+      const size = document.getElementById('fontSizeSelect').value;
+      let fontSize;
+      if (size === 'small') fontSize = '12px';
+      else if (size === 'medium') fontSize = '16px';
+      else fontSize = '20px';
+      document.body.style.fontSize = fontSize;
+      localStorage.setItem('fontSize', size);
+    }
+
+    function changeLanguage() {
+      const lang = document.getElementById('languageSelect').value;
+      localStorage.setItem('language', lang);
+      alert(lang === 'en' ? 'Language set to English (UI update not implemented yet)' : 'تم تغيير اللغة إلى العربية (التغيير لم يكتمل بعد)');
+    }
+
+    window.onload = () => {
+      // تحميل الثيم
+      const savedTheme = localStorage.getItem('theme');
+      const themeToggle = document.getElementById('themeToggle');
+      if (savedTheme === 'light') {
+        themeToggle.checked = true;
+        switchTheme();
+      }
+
+      // تحميل حجم الخط
+      const savedFont = localStorage.getItem('fontSize');
+      const fontSizeSelect = document.getElementById('fontSizeSelect');
+      if (savedFont) {
+        fontSizeSelect.value = savedFont;
+        changeFontSize();
+      }
+
+      // تحميل اللغة
+      const savedLang = localStorage.getItem('language');
+      const languageSelect = document.getElementById('languageSelect');
+      if (savedLang) {
+        languageSelect.value = savedLang;
+      }
+    };
   </script>
 </body>
 </html>
