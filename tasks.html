@@ -11,6 +11,7 @@
       color: white;
       margin: 0;
       padding: 0;
+      display: flex;
     }
     header {
       background-color: #1f2b3e;
@@ -18,28 +19,30 @@
       text-align: center;
       font-size: 24px;
       font-weight: bold;
+      width: 100%;
     }
     nav {
       background-color: #151d2b;
+      width: 250px;
       padding: 10px;
-      text-align: center;
+      position: fixed;
+      height: 100vh;
     }
     nav a {
       color: #b3c7e6;
       text-decoration: none;
       margin: 0 15px;
+      display: block;
       font-weight: bold;
+      padding: 10px 0;
     }
     nav a:hover {
       color: #ffffff;
     }
-    .task-list {
-      padding: 20px;
-      list-style-type: none;
+    .tasks-list {
+      margin-left: 250px;
+      padding: 30px;
       text-align: center;
-    }
-    .task-list li {
-      margin: 10px 0;
     }
     footer {
       background-color: #1f2b3e;
@@ -52,21 +55,30 @@
 </head>
 <body>
   <header>
-    SouthLand Police - المهام
+    المهام | SouthLand Police
   </header>
 
   <nav>
     <a href="index.html">الصفحة الرئيسية</a>
-    <a href="officers.html">جدول العساكر</a>
     <a href="news.html">آخر الأخبار</a>
+    <a href="officers.html">جدول العساكر</a>
   </nav>
 
-  <div class="task-list">
-    <h2>قائمة المهام</h2>
+  <div class="tasks-list">
+    <h2>المهام الحالية</h2>
     <ul>
-      <li>القيام بدوريات في المدينة</li>
-      <li>تفتيش المركبات المشبوهة</li>
-      <li>التعاون مع الفرق الأمنية الأخرى</li>
+      <li>
+        <strong>المهمة:</strong> تأمين المواقع الحساسة
+        <br><strong>الوصف:</strong> تأمين المرافق الحيوية في المدينة.
+      </li>
+      <li>
+        <strong>المهمة:</strong> مراقبة النشاطات المشبوهة
+        <br><strong>الوصف:</strong> القيام بدوريات في الأحياء المعرضة للجريمة.
+      </li>
+      <li>
+        <strong>المهمة:</strong> تدريب فرق جديدة
+        <br><strong>الوصف:</strong> تدريب الفرق على التعامل مع الأزمات.
+      </li>
     </ul>
   </div>
 
