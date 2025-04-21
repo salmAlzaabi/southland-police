@@ -36,45 +36,45 @@
     nav a:hover {
       color: #ffffff;
     }
-
-    /* Sidebar styles */
-    #sidebar {
-      width: 250px;
-      position: fixed;
-      top: 0;
-      left: -250px; /* Hidden by default */
-      height: 100%;
-      background-color: #24292f;
-      padding-top: 30px;
-      transition: 0.3s;
-    }
-    #sidebar a {
-      padding: 10px 15px;
-      text-decoration: none;
-      font-size: 18px;
+    .sidebar-btn {
+      font-size: 24px;
+      cursor: pointer;
       color: #b3c7e6;
-      display: block;
-      transition: 0.3s;
+      padding: 10px;
     }
-    #sidebar a:hover {
+    .sidebar-btn:hover {
       color: white;
     }
-    #sidebar .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 36px;
-      color: #b3c7e6;
+    section {
+      margin: 20px;
     }
-
-    /* Style for open/close button */
-    .open-btn {
-      font-size: 30px;
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      font-size: 14px;
+    }
+    .news {
+      margin: 30px 0;
+      background-color: #24324d;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .news h2 {
       color: #fff;
-      background-color: #1f2b3e;
+    }
+    .news-item {
+      margin-bottom: 15px;
       padding: 10px;
-      cursor: pointer;
-      border: none;
+      background-color: #1a2332;
+      border-radius: 8px;
+    }
+    .news-item h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .news-item p {
+      font-size: 14px;
     }
   </style>
 </head>
@@ -83,21 +83,43 @@
     SouthLand Police
   </header>
 
-  <!-- زر لفتح الشريط الجانبي -->
-  <button class="open-btn" onclick="toggleSidebar()">☰ فتح القائمة الجانبية</button>
+  <!-- زر المهام في أعلى الصفحة -->
+  <nav>
+    <div class="sidebar-btn" onclick="window.location.href='tasks.html';">&#9776;</div> <!-- بديل لـ "فتح القائمة" -->
+    <a href="javascript:void(0)" onclick="window.location.href='tasks.html';">🔍 المهام</a>
+  </nav>
 
-  <!-- شريط جانبي -->
-  <div id="sidebar">
-    <a href="javascript:void(0)" class="close-btn" onclick="toggleSidebar()">×</a>
-    <a href="soldiers.html">جدول العساكر</a>
-    <a href="tasks.html">المهام</a>
-    <!-- يمكنك إضافة روابط إضافية هنا -->
-  </div>
-
-  <!-- محتوى الصفحة الرئيسية -->
   <section>
-    <h2 style="text-align: center;">مرحبًا بكم في SouthLand Police</h2>
-    <p style="text-align: center;">هذه هي الصفحة الرئيسية.</p>
+    <h2 style="text-align: center;">أخبار الشرطة</h2>
+    <div class="news">
+      <div class="news-item">
+        <h3>عنوان الخبر 1</h3>
+        <p>تفاصيل الخبر الأول الذي يتحدث عن آخر التطورات في الشرطة...</p>
+      </div>
+      <div class="news-item">
+        <h3>عنوان الخبر 2</h3>
+        <p>تفاصيل الخبر الثاني...</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="officers">
+    <h2 style="text-align: center;">جدول العساكر</h2>
+    <table id="officerTable">
+      <thead>
+        <tr>
+          <th>الاسم</th>
+          <th>الرتبة</th>
+          <th>الكود العسكري</th>
+          <th>الحالة</th>
+          <th>آخر ترقية</th>
+          <th>الملاحظات</th>
+          <th>المنصب</th>
+          <th>النقاط</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </section>
 
   <div class="footer">
@@ -105,15 +127,36 @@
   </div>
 
   <script>
-    // دالة لفتح وإغلاق الشريط الجانبي
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      if (sidebar.style.left === '-250px') {
-        sidebar.style.left = '0';
-      } else {
-        sidebar.style.left = '-250px';
-      }
-    }
+    // تحميل بيانات العساكر
+    fetch('https://script.google.com/macros/s/AKfycbwjb3RkmBhAJX_Ubq0ll6vAsWudJC7MhOg_J9G7FqzOxZ8ZiUNy35CFRGIs7luL7Sg/exec')
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector('#officerTable tbody');
+        tbody.innerHTML = '';
+        if (data && Array.isArray(data) && data.length > 0) {
+          data.forEach(row => {
+            if (row['الاسم'] && row['الاسم'].trim() !== '') {
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+                <td>${row['الاسم'] || '-'}</td>
+                <td>${row['الرتبة'] || '-'}</td>
+                <td>${row['الكود العسكري'] || '-'}</td>
+                <td>${row['الحالة'] || '-'}</td>
+                <td>${row['آخر ترقية'] || '-'}</td>
+                <td>${row['الملاحظات'] || '-'}</td>
+                <td>${row['المنصب'] || '-'}</td>
+                <td>${row['النقاط'] || '0'}</td>
+              `;
+              tbody.appendChild(tr);
+            }
+          });
+        } else {
+          tbody.innerHTML = '<tr><td colspan="8">لا توجد بيانات لعرضها</td></tr>';
+        }
+      })
+      .catch(err => {
+        document.querySelector('#officerTable tbody').innerHTML = '<tr><td colspan="8">تعذر تحميل البيانات، حاول مجددًا لاحقًا.</td></tr>';
+      });
   </script>
 </body>
 </html>
