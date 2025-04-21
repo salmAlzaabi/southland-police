@@ -24,7 +24,7 @@
       background-color: #151d2b;
       padding: 10px 20px;
       display: flex;
-      justify-content: flex-start;
+      justify-content: flex-end;
       align-items: center;
     }
     nav a {
@@ -36,31 +36,18 @@
     nav a:hover {
       color: #ffffff;
     }
-    table {
-      width: 90%;
-      margin: 30px auto;
-      border-collapse: collapse;
-      background-color: #1a2332;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    th, td {
-      padding: 12px 15px;
-      text-align: center;
-      border-bottom: 1px solid #2e3b4e;
-    }
-    th {
-      background-color: #24324d;
-      color: #fff;
-    }
-    tr:hover {
-      background-color: #2b3d5c;
-    }
     .footer {
       text-align: center;
       padding: 20px;
       color: #777;
       font-size: 14px;
+    }
+    .tasks-list {
+      padding: 20px;
+      list-style-type: none;
+    }
+    .tasks-list li {
+      margin-bottom: 10px;
     }
   </style>
 </head>
@@ -69,54 +56,22 @@
     مهام SouthLand Police
   </header>
 
-  <!-- زر العودة -->
+  <!-- شريط التنقل -->
   <nav>
-    <!-- رابط العودة بشكل صحيح إلى الصفحة الرئيسية -->
-    <a href="javascript:history.back()">🔙 العودة</a>
+    <a href="index.html">الصفحة الرئيسية</a>
   </nav>
 
-  <section id="tasks">
-    <h2 style="text-align: center;">المهام</h2>
-    <table id="taskTable">
-      <thead>
-        <tr>
-          <th>المهمة</th>
-          <th>التفاصيل</th>
-          <th>التاريخ</th>
-          <th>المسؤول</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </section>
+  <div class="tasks-list">
+    <h2>قائمة المهام</h2>
+    <ul>
+      <li>أداء جولة ميدانية في المدينة</li>
+      <li>تفتيش المركبات المشتبه بها</li>
+      <li>التنسيق مع الفرق الأمنية الأخرى</li>
+    </ul>
+  </div>
 
   <div class="footer">
     جميع الحقوق محفوظة &copy; SA | SouthLand Police
   </div>
-
-  <script>
-    // تحميل بيانات المهام
-    fetch('https://script.google.com/macros/s/AKfycbz8kb0sACI_zG4bndzFiwEP6jx0zAFX8eNwZu1aEVYBc0syjPdXoPZaFmmlSbbHFtYq/exec')
-      .then(res => res.json())
-      .then(data => {
-        const tbody = document.querySelector('#taskTable tbody');
-        tbody.innerHTML = '';
-        data.forEach(row => {
-          if (row['المهمة'] && row['المهمة'].trim() !== '') {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-              <td>${row['المهمة'] || '-'}</td>
-              <td>${row['التفاصيل'] || '-'}</td>
-              <td>${row['التاريخ'] || '-'}</td>
-              <td>${row['المسؤول'] || '-'}</td>
-            `;
-            tbody.appendChild(tr);
-          }
-        });
-      })
-      .catch(err => {
-        document.querySelector('#taskTable tbody').innerHTML = '<tr><td colspan="4">تعذر تحميل البيانات</td></tr>';
-      });
-  </script>
 </body>
 </html>
