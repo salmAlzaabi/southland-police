@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>الرتب والصلاحيات - Ghost City</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      background-color: #0d1117;
+      color: white;
+    }
+    header {
+      background-color: #161b22;
+      padding: 20px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    nav {
+      background-color: #1f2a38;
+      padding: 15px;
+      text-align: center;
+    }
+    nav a {
+      color: #ddd;
+      margin: 0 15px;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    nav a:hover {
+      color: #fff;
+    }
+    table {
+      width: 90%;
+      margin: 30px auto;
+      border-collapse: collapse;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #101624;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+      border-bottom: 1px solid #2a3240;
+    }
+    th {
+      background-color: #1b2537;
+      color: #fff;
+    }
+    tr:hover {
+      background-color: #223047;
+    }
+  </style>
+</head>
+<body>
+  <header>الرتب والصلاحيات</header>
+  <nav>
+    <a href="index.html">الرئيسية</a>
+    <a href="tasks.html">المهام</a>
+    <a href="roles.html">الرتب والصلاحيات</a>
+  </nav>
+
+  <table id="rolesTable">
+    <thead>
+      <tr>
+        <th>الرتبة</th>
+        <th>الصلاحيات</th>
+        <th>النقاط</th>
+        <th>المستوى</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const sheetId = '1CJwGDWN9tW6uS8Gmcf5H2OJqNnHhOeZXsAFpO0PrHrs'; // استخدم نفس ID صفحة المهام
+    const sheetName = 'الرتب'; // غير الاسم إذا كان مختلف
+    const apiUrl = `https://opensheet.elk.sh/${sheetId}/${sheetName}`;
+
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => {
+        const tbody = document.querySelector('#rolesTable tbody');
+        data.forEach(row => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${row['الرتبة'] || '-'}</td>
+            <td>${row['الصلاحيات'] || '-'}</td>
+            <td>${row['النقاط'] || '0'}</td>
+            <td>${row['المستوى'] || '-'}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(error => {
+        console.error('فشل في جلب البيانات:', error);
+      });
+  </script>
+</body>
+</html>
