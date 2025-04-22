@@ -1,101 +1,98 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>الرتب والصلاحيات - Ghost City</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الرتب والصلاحيات</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Cairo', sans-serif;
-      background-color: #0d1117;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0b0f1a;
       color: white;
+      margin: 0;
+      padding: 0;
     }
     header {
-      background-color: #161b22;
+      background-color: #1f2b3e;
       padding: 20px;
       text-align: center;
-      font-size: 28px;
+      font-size: 24px;
       font-weight: bold;
-    }
-    nav {
-      background-color: #1f2a38;
-      padding: 15px;
-      text-align: center;
-    }
-    nav a {
-      color: #ddd;
-      margin: 0 15px;
-      text-decoration: none;
-      font-size: 16px;
-    }
-    nav a:hover {
-      color: #fff;
     }
     table {
       width: 90%;
       margin: 30px auto;
       border-collapse: collapse;
+      background-color: #1a2332;
       border-radius: 8px;
       overflow: hidden;
-      background-color: #101624;
     }
     th, td {
       padding: 12px 15px;
       text-align: center;
-      border-bottom: 1px solid #2a3240;
+      border-bottom: 1px solid #2e3b4e;
     }
     th {
-      background-color: #1b2537;
+      background-color: #24324d;
       color: #fff;
     }
     tr:hover {
-      background-color: #223047;
+      background-color: #2b3d5c;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-  <header>الرتب والصلاحيات</header>
-  <nav>
-    <a href="index.html">الرئيسية</a>
-    <a href="tasks.html">المهام</a>
-    <a href="roles.html">الرتب والصلاحيات</a>
-  </nav>
+  <header>🔐 الرتب والصلاحيات</header>
 
-  <table id="rolesTable">
-    <thead>
-      <tr>
-        <th>الرتبة</th>
-        <th>الصلاحيات</th>
-        <th>النقاط</th>
-        <th>المستوى</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <section>
+    <table id="ranksTable">
+      <thead>
+        <tr>
+          <th>الرتبة</th>
+          <th>الصلاحيات</th>
+          <th>النقاط</th>
+          <th>المستوى</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <div class="footer">
+    جميع الحقوق محفوظة &copy; SA | SouthLand Police
+  </div>
 
   <script>
-    const sheetId = '1CJwGDWN9tW6uS8Gmcf5H2OJqNnHhOeZXsAFpO0PrHrs'; // استخدم نفس ID صفحة المهام
-    const sheetName = 'الرتب'; // غير الاسم إذا كان مختلف
-    const apiUrl = `https://opensheet.elk.sh/${sheetId}/${sheetName}`;
-
-    fetch(apiUrl)
-      .then(response => response.json())
+    fetch('https://script.google.com/macros/s/AKfycbwjb3RkmBhAJX_Ubq0ll6vAsWudJC7MhOg_J9G7FqzOxZ8ZiUNy35CFRGIs7luL7Sg/exec')
+      .then(res => res.json())
       .then(data => {
-        const tbody = document.querySelector('#rolesTable tbody');
-        data.forEach(row => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${row['الرتبة'] || '-'}</td>
-            <td>${row['الصلاحيات'] || '-'}</td>
-            <td>${row['النقاط'] || '0'}</td>
-            <td>${row['المستوى'] || '-'}</td>
-          `;
-          tbody.appendChild(tr);
-        });
+        const tbody = document.querySelector('#ranksTable tbody');
+        tbody.innerHTML = '';
+        if (data && Array.isArray(data) && data.length > 0) {
+          data.forEach(row => {
+            if (row['الرتبة'] && row['الرتبة'].trim() !== '') {
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+                <td>${row['الرتبة'] || '-'}</td>
+                <td>${row['الصلاحيات'] || '-'}</td>
+                <td>${row['النقاط'] || '-'}</td>
+                <td>${row['المستوى'] || '-'}</td>
+              `;
+              tbody.appendChild(tr);
+            }
+          });
+        } else {
+          tbody.innerHTML = '<tr><td colspan="4">لا توجد بيانات لعرضها</td></tr>';
+        }
       })
-      .catch(error => {
-        console.error('فشل في جلب البيانات:', error);
+      .catch(() => {
+        document.querySelector('#ranksTable tbody').innerHTML = '<tr><td colspan="4">تعذر تحميل البيانات، حاول مجددًا لاحقًا.</td></tr>';
       });
   </script>
 </body>
