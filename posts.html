@@ -2,7 +2,8 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8" />
-  <title>المنشورات | SouthLand Police</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>المنشورات - SouthLand Police</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -10,7 +11,6 @@
       color: white;
       margin: 0;
       padding: 0;
-      direction: rtl;
     }
     header {
       background-color: #1f2b3e;
@@ -18,67 +18,99 @@
       text-align: center;
       font-size: 24px;
       font-weight: bold;
+      letter-spacing: 1px;
     }
-    .back-button {
-      padding: 15px 20px;
-      text-align: left;
+    nav {
+      background-color: #151d2b;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
     }
-    .back-button a {
-      color: #00aaff;
-      text-decoration: none;
-      font-size: 18px;
+    nav button {
+      background-color: #1f2b3e;
+      color: #b3c7e6;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    nav button:hover {
+      color: white;
+    }
+    .post-container {
+      width: 90%;
+      margin: 30px auto;
+      background-color: #1a2332;
+      border-radius: 8px;
+      padding: 20px;
     }
     .post {
-      background-color: #1a2332;
-      margin: 20px;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      border-bottom: 1px solid #2e3b4e;
+      padding: 15px 0;
     }
     .post h3 {
-      color: #ffffff;
-      margin-top: 0;
+      margin: 0 0 10px;
+      color: #b3c7e6;
     }
     .post p {
-      color: #ccc;
+      margin: 0;
+      color: #ddd;
     }
     .footer {
       text-align: center;
       padding: 20px;
       color: #777;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-  <header>المنشورات - SouthLand Police</header>
+  <header>
+    المنشورات - SouthLand Police
+  </header>
 
-  <div class="back-button">
-    <a href="index.html">🔙 العودة</a>
+  <!-- زر العودة -->
+  <nav>
+    <button 
+      onclick="window.location.href='https://salmalzaabi.github.io/southland-police/'">
+      🔙 العودة
+    </button>
+  </nav>
+
+  <section class="post-container" id="posts">
+    <div>جاري تحميل المنشورات...</div>
+  </section>
+
+  <div class="footer">
+    جميع الحقوق محفوظة &copy; SA | SouthLand Police
   </div>
-
-  <div id="posts-container"></div>
-
-  <div class="footer">جميع الحقوق محفوظة &copy; SA | SouthLand Police</div>
 
   <script>
     fetch('https://script.google.com/macros/s/AKfycbxfN28riJaoKhi0SAcTdTbH2_4KIBM8pKov_hYwE-7ApQJvgmor-EIU0zuOcqcxKPN2dA/exec')
       .then(res => res.json())
       .then(data => {
-        const container = document.getElementById('posts-container');
-        if (Array.isArray(data)) {
+        const container = document.getElementById('posts');
+        container.innerHTML = '';
+        if (data && data.length > 0) {
           data.forEach(post => {
-            const div = document.createElement('div');
-            div.className = 'post';
-            div.innerHTML = `<h3>${post['عنوان المنشور'] || 'بدون عنوان'}</h3><p>${post['محتوى المنشور'] || 'لا يوجد محتوى'}</p>`;
-            container.appendChild(div);
+            if (post['العنوان'] && post['المحتوى']) {
+              const div = document.createElement('div');
+              div.className = 'post';
+              div.innerHTML = `
+                <h3>${post['العنوان']}</h3>
+                <p>${post['المحتوى']}</p>
+              `;
+              container.appendChild(div);
+            }
           });
         } else {
-          container.innerHTML = '<p>لم يتم العثور على منشورات.</p>';
+          container.innerHTML = '<div>لا توجد منشورات حالياً.</div>';
         }
       })
-      .catch(error => {
-        document.getElementById('posts-container').innerHTML = '<p>حدث خطأ أثناء تحميل المنشورات.</p>';
-        console.error(error);
+      .catch(err => {
+        document.getElementById('posts').innerHTML = '<div>تعذر تحميل المنشورات.</div>';
       });
   </script>
 </body>
