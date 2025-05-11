@@ -64,6 +64,31 @@
       color: #777;
       font-size: 14px;
     }
+    /* Style for the form */
+    .post-form {
+      margin-top: 30px;
+      background-color: #1a2332;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .post-form input, .post-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #444;
+    }
+    .post-form button {
+      background-color: #1f2b3e;
+      color: #b3c7e6;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    .post-form button:hover {
+      background-color: #2e3b4e;
+    }
   </style>
 </head>
 <body>
@@ -79,8 +104,29 @@
     </button>
   </nav>
 
+  <!-- قسم المنشورات -->
   <section class="post-container" id="posts">
     <div>جاري تحميل المنشورات...</div>
+  </section>
+
+  <!-- قسم إضافة منشور -->
+  <section class="post-form">
+    <h2>إضافة منشور جديد</h2>
+    <form id="postForm">
+      <label for="author">اسم الناشر</label>
+      <input type="text" id="author" required placeholder="أدخل اسم الناشر" />
+
+      <label for="rank">رتبة الناشر</label>
+      <input type="text" id="rank" required placeholder="أدخل رتبة الناشر" />
+
+      <label for="email">إيميل الناشر</label>
+      <input type="email" id="email" required placeholder="أدخل إيميل الناشر" />
+
+      <label for="content">المحتوى</label>
+      <textarea id="content" required placeholder="أدخل محتوى المنشور"></textarea>
+
+      <button type="submit">نشر المنشور</button>
+    </form>
   </section>
 
   <div class="footer">
@@ -88,6 +134,7 @@
   </div>
 
   <script>
+    // تحميل المنشورات من Google Sheets
     fetch('https://script.google.com/macros/s/AKfycbxfN28riJaoKhi0SAcTdTbH2_4KIBM8pKov_hYwE-7ApQJvgmor-EIU0zuOcqcxKPN2dA/exec')
       .then(res => res.json())
       .then(data => {
@@ -112,6 +159,39 @@
       .catch(err => {
         document.getElementById('posts').innerHTML = '<div>تعذر تحميل المنشورات.</div>';
       });
+
+    // إرسال المنشور إلى Google Sheets
+    document.getElementById('postForm').addEventListener('submit', function(event) {
+      event.preventDefault();  // منع التحديث التلقائي للصفحة
+      const author = document.getElementById('author').value;
+      const rank = document.getElementById('rank').value;
+      const email = document.getElementById('email').value;
+      const content = document.getElementById('content').value;
+      const date = new Date().toLocaleDateString();  // التاريخ الحالي
+
+      // إرسال البيانات إلى Google Script
+      fetch('https://script.google.com/macros/s/AKfycbxfN28riJaoKhi0SAcTdTbH2_4KIBM8pKov_hYwE-7ApQJvgmor-EIU0zuOcqcxKPN2dA/exec', {
+        method: 'POST',
+        body: JSON.stringify({
+          author: author,
+          rank: rank,
+          email: email,
+          content: content,
+          date: date
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('تم نشر المنشور بنجاح');
+        document.getElementById('postForm').reset();
+      })
+      .catch(error => {
+        alert('حدث خطأ أثناء نشر المنشور');
+      });
+    });
   </script>
 </body>
 </html>
