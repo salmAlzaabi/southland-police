@@ -43,14 +43,40 @@
 </head>
 <body>
   <header>المنشورات - SouthLand Police</header>
-  
-  <div class="post">
-    <h3>عنوان المنشور الأول</h3>
-    <p>محتوى المنشور هنا...</p>
-  </div>
+
+  <!-- سيتم عرض المنشورات هنا -->
+  <div id="posts-container"></div>
 
   <div class="footer">
     جميع الحقوق محفوظة &copy; SA | SouthLand Police
   </div>
+
+  <script>
+    // استدعاء البيانات من Google Sheets (يمكنك تعديل الرابط برابط جدول البيانات الخاص بك)
+    fetch('https://script.google.com/macros/s/AKfycbwjb3RkmBhAJX_Ubq0ll6vAsWudJC7MhOg_J9G7FqzOxZ8ZiUNy35CFRGIs7luL7Sg/exec')
+      .then(response => response.json())
+      .then(data => {
+        const postsContainer = document.getElementById('posts-container');
+        postsContainer.innerHTML = ''; // مسح المحتوى السابق إذا كان موجودًا
+
+        if (data && Array.isArray(data) && data.length > 0) {
+          data.forEach(post => {
+            const postElement = document.createElement('div');
+            postElement.classList.add('post');
+            postElement.innerHTML = `
+              <h3>${post['عنوان المنشور'] || 'عنوان غير متوفر'}</h3>
+              <p>${post['محتوى المنشور'] || 'محتوى غير متوفر'}</p>
+            `;
+            postsContainer.appendChild(postElement);
+          });
+        } else {
+          postsContainer.innerHTML = '<p>لا توجد منشورات لعرضها.</p>';
+        }
+      })
+      .catch(error => {
+        console.error('حدث خطأ أثناء جلب البيانات:', error);
+        document.getElementById('posts-container').innerHTML = '<p>حدث خطأ أثناء تحميل المنشورات، يرجى المحاولة لاحقًا.</p>';
+      });
+  </script>
 </body>
 </html>
