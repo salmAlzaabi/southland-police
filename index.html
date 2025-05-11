@@ -64,7 +64,6 @@
       color: #777;
       font-size: 14px;
     }
-    /* نافذة الإعدادات */
     #settingsModal {
       display: none;
       position: fixed;
@@ -101,13 +100,12 @@
 <body>
   <header>SouthLand Police</header>
 
- <nav>
-  <a onclick="window.location.href='tasks.html';">🔍 المهام</a>
-  <a onclick="window.location.href='archive.html';">📚 الأرشيف</a>
-  <a onclick="window.location.href='posts.html';">📰 المنشورات</a> <!-- هذا الرابط الجديد -->
-  <a onclick="toggleSettings()">⚙️ الإعدادات</a>
-</nav>
-
+  <nav>
+    <a href="tasks.html">🔍 المهام</a>
+    <a href="archive.html">📚 الأرشيف</a>
+    <a href="posts.html">📰 المنشورات</a>
+    <a onclick="toggleSettings()">⚙️ الإعدادات</a>
+  </nav>
 
   <section id="officers">
     <h2 style="text-align: center;">جدول العساكر</h2>
@@ -131,7 +129,6 @@
     جميع الحقوق محفوظة &copy; SA | SouthLand Police
   </div>
 
-  <!-- نافذة الإعدادات -->
   <div id="settingsModal">
     <h3>⚙️ الإعدادات</h3>
     <label>
@@ -139,7 +136,6 @@
       تفعيل الوضع النهاري
     </label>
     <hr />
-
     <label>🔠 حجم الخط:</label>
     <select id="fontSizeSelect" onchange="changeFontSize()">
       <option value="small">صغير</option>
@@ -147,19 +143,16 @@
       <option value="large">كبير</option>
     </select>
     <hr />
-
     <label>🌐 اللغة:</label>
     <select id="languageSelect" onchange="changeLanguage()">
       <option value="ar" selected>العربية</option>
       <option value="en">English</option>
     </select>
-
     <br />
     <button onclick="toggleSettings()">إغلاق</button>
   </div>
 
   <script>
-    // جدول العساكر
     fetch('https://script.google.com/macros/s/AKfycbwjb3RkmBhAJX_Ubq0ll6vAsWudJC7MhOg_J9G7FqzOxZ8ZiUNy35CFRGIs7luL7Sg/exec')
       .then(res => res.json())
       .then(data => {
@@ -189,7 +182,6 @@
         document.querySelector('#officerTable tbody').innerHTML = '<tr><td colspan="7">تعذر تحميل البيانات، حاول مجددًا لاحقًا.</td></tr>';
       });
 
-    // إعدادات
     function toggleSettings() {
       const modal = document.getElementById('settingsModal');
       modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
@@ -225,7 +217,6 @@
     }
 
     window.onload = () => {
-      // تحميل الثيم
       const savedTheme = localStorage.getItem('theme');
       const themeToggle = document.getElementById('themeToggle');
       if (savedTheme === 'light') {
@@ -233,7 +224,6 @@
         switchTheme();
       }
 
-      // تحميل حجم الخط
       const savedFont = localStorage.getItem('fontSize');
       const fontSizeSelect = document.getElementById('fontSizeSelect');
       if (savedFont) {
@@ -241,7 +231,6 @@
         changeFontSize();
       }
 
-      // تحميل اللغة
       const savedLang = localStorage.getItem('language');
       const languageSelect = document.getElementById('languageSelect');
       if (savedLang) {
